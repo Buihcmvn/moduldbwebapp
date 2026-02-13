@@ -1,0 +1,61 @@
+{# Templates extend from base template #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Login{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('login') }}
+{% endblock %}
+
+{% block body %}
+
+    {# Fehlermeldung anzeigen, wenn vorhanden #}
+    <div>
+        {% for message in app.flashes('error') %}
+            <div class="alert_error_message">{{ message }}</div>
+        {% endfor %}
+    </div>
+
+    <div class="container">
+        {# 
+           diese Form hat keine csrf_message 
+           "The CSRF token is invalid. Please try to resubmit the form."
+        #}
+
+        {# {{ form_start(form, {'action': path('login_check'), 'method': 'POST'}) }} #}
+        {{ form_start(form, {'method': 'POST'}) }}
+
+        <h1>Login</h1>
+
+        <div class="user_info">
+            <div>
+                {{ form_widget(form._username) }}
+                <small class="error">{{ form_errors(form._username) }}</small>
+                <span></span>
+            </div>
+
+            <div>
+                {{ form_widget(form._password) }}
+                <small class="error">{{ form_errors(form._password) }}</small>
+                <span></span>
+            </div>
+
+            <div>
+                {{ form_widget(form._csrf_token) }}
+            </div>
+
+            {# {{ form_widget(form.login) }} #}
+
+            <div>
+                <button type="submit">Login</button>
+            </div>
+
+            <div class="footer">
+                <p>Not a member? <a href="/signup">Signup</a> here</p>
+            </div>
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}

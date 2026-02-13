@@ -1,0 +1,10 @@
+parameters:
+    # erst nur für Hardware Entity
+    hardware_upload_dir: '%kernel.project_dir%/data/uploads/hardware'
+    software_upload_dir: '%kernel.project_dir%/data/uploads/software'
+    image_upload_dir: '%kernel.project_dir%/data/uploads/images'
+    icon_upload_dir: '%kernel.project_dir%/data/uploads/icons'
+
+    # # erst nur für Hardware Entity
+    # hardware_upload_dir: '%kernel.project_dir%/public/uploads/hardware'
+    # image_upload_dir: '%kernel.project_dir%/public/uploads/images'

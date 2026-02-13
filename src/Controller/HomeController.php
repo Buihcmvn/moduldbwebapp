@@ -1,66 +1,72 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\Project;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Service\HeaderService;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class HomeController extends AbstractController
 {
+    private HeaderService $headerService;
 
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private ValidatorInterface $validator
-    ){}
-
-    #[Route('/', name: 'homepage')]
-    public function index(): Response
+        HeaderService $headerService,
+    )
     {
-        $number = random_int(0, 100);
-        return $this->render('Home/home.html.twig', [
-            'number' => $number,
-        ]);
+        $this->headerService = $headerService;
     }
 
-    #[Route('project/create', name:'project_create')]
-    public function createProject(){
+    // TEST --> client site
+    public function index(Request $request): Response
+    {
+        $userToken      = $this->getUser();
+        $userRole       = $userToken->getRoles();
 
-        $message = "Test create a project";
-        $project = new Project;
-        $project->setName('Kimas');
-        $project->setArea(1);
-        $project->setHardware('2');
-        $project->setSoftware(3);
-        $project->setDeveloper(4);
-        $project->setCustomer(3);
-        $project->setComment('this is a smart mobile roboter with camera modul for processing image');
-  
-        $error = $this->validator->validate($project);
-        if (count($error)>0){
-            return new Response((String) $error, 400);
-        }
-        
-        // tell Doctrine you want to (eventually) save the Product (no queries yet)
-        $this->entityManager->persist($project);
-        // actually executes the queries (i.e. the INSERT query)
-        $this->entityManager->flush();
-
-        return $this->render('Project/create.html.twig', [
-            'message'=> $message
+        return $this->render('home/index.html.twig', [
+            'userID'            => $userToken->getId(),
+            'userRole'          => $userRole,
         ]);
     }
 
 
-    #[Route('project/edit/{id}', name:'project_edit')]
-    public function editProject(Project $project){
 
-        return $this->render('Project/create.html.twig', [
-            'project'=> $project
+    // server site --->
+//    #[Route('/home', name: 'home')] // only limit for home page ?? what about another page ???
+    public function home(Request $request):Response
+    {
+        $userToken      = $this->getUser();
+        $userRole       = $userToken->getRoles();
+
+        // suchen nach aktuelle Role --> um die aktuelle Recht zu finden
+        // default Role ist die, die höher Recht hat (kleiner role ID)
+        // Holen Sie sich die Schlüssel des Arrays
+        $keys           = array_keys($userRole);
+        // Finden Sie den kleinsten Schlüssel
+        $smallestKey    = min($keys);
+        $defaultRole    = $userRole[$smallestKey];
+
+        // push the currentRoleId value to session
+        $request->getSession()->set('currentRoleId', $defaultRole);
+
+//        dd($userRole);
+
+        return $this->render('Home/home.html.twig',[
+            'task'              => 'home',
+            'user'              => $userToken,
+            'userRole'          => $userRole,
+            'defaultRole'       => $defaultRole,
+            'source_symbol_img' => $this->headerService::ICONS_PATH['logo'],
+            'source_user_img'   => $this->headerService::ICONS_PATH['user'],
+            'alt_symbol_img'    => $this->headerService::ICONS_PATH['logo']
         ]);
     }
+
+
+
+
 }
