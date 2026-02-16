@@ -4,6 +4,26 @@ controllers:
         namespace: App\Controller
     type: attribute
 
-# index:
-#     path: /
-#     controller: App\Controller\HomeController::index
+index:
+    path: /
+    controller: App\Controller\HomeController::index
+
+home:
+    path: /home
+    controller: App\Controller\HomeController::home
+
+signup:
+    path: /signup
+    controller: App\Controller\LoginController::signup
+
+login:
+    path: /login
+    controller: App\Controller\LoginController::login
+
+logout:
+    path: /logout
+    controller: App\Controller\LoginController::logout
+
+login_check:
+    path: /login_check
+    controller: App\Controller\LoginController::loginCheck
