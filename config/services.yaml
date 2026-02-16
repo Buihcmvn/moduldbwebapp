@@ -25,11 +25,15 @@ services:
     # please note that last definitions always *replace* previous ones
 
     # NotFoundExceptionListener
-    App\Service\NotFoundExceptionListener:
+    App\EventListener\ExceptionListener:
         tags:
-            -{ name: kernel.event_listener, event: kernel.exception, method: onKernelException }
+            - { name: 'kernel.event_listener', event: 'kernel.exception', method: 'onKernelException' }
+            
+    # App\EventListener\ExceptionListener:
+    #     tags:
+    #         - { name: kernel.event_listener, event: kernel.exception }
 
     # Voter registrieren
     App\Security\Voter\MyServiceVoter:
         tags:
-            -{ name: 'security.voter' }
+            - { name: 'security.voter' }

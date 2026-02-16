@@ -1,0 +1,146 @@
+<?php
+declare(strict_types=1);
+/*
+ *  Dies Service wird für allgemeinte Information mitgeliefert
+ *  - gelogte User ID, User Role
+ *  - Horizontal Bar Infor
+ */
+
+namespace App\Service;
+
+use Doctrine\ORM\PersistentCollection;
+use ReflectionClass;
+use Symfony\Component\HttpFoundation\Request;
+use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
+
+
+class HeaderService
+{
+    const ICONS_PATH = [
+        'logo'          =>'images/logo.png',
+        'user'          =>'images/user.svg',
+        'forward'       =>'images/forward.svg',
+        'backward'      =>'images/backward.svg',
+        'backward_end'  =>'images/backward_end.svg',
+        'forward_end'   =>'images/forward_end.svg',
+        'delete'        =>'images/delete.svg',
+        'settings'      =>'images/settings.svg',
+        'up'            =>'images/up.svg',
+        'down'          =>'images/down.svg',
+    ];
+
+    const ICONS_PATH_HARDWARE = [
+        'source_symbol_img'        =>'/images/logo.png',
+        'source_user_img'          =>'/images/user.svg',
+        'source_forward_img'       =>'/images/forward.svg',
+        'source_backward_img'      =>'/images/backward.svg',
+        'source_backward_end_img'  =>'/images/backward_end.svg',
+        'source_forward_end_img'   =>'/images/forward_end.svg',
+        'source_delete_img'        =>'/images/delete.svg',
+        'source_up_img'            =>'/images/up.svg',
+        'source_down_img'          =>'/images/down.svg',
+    ];
+
+    public EntityManagerInterface $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
+    // für den Fall speichern und management Image Name in eine Tabelle
+    public function sort_pagination( $queryBuilder,int $limitPPage, int $page, string $search, PaginatorInterface $paginator): array
+    {
+
+        // Paginate the results of the query
+        $pagination = $paginator->paginate(
+            $queryBuilder, // QueryBuilder
+            $page,         // Aktuelle Seite
+            $limitPPage    // Limit pro Seite
+        );
+
+        $currentPage    = $pagination->getCurrentPageNumber();
+        $totalCount     = $pagination->getTotalItemCount();
+        $beginItem      = $currentPage * $limitPPage - $limitPPage + 1;
+        $endItem        = ($currentPage * $limitPPage > $totalCount) ? $totalCount : $currentPage * $limitPPage;
+
+        return [
+            'list'                      => $pagination,
+            'currentPage'               => $currentPage,
+            'limitPPage'                => $limitPPage,
+            'search'                    => $search,
+            'totalCount'                => $totalCount,
+            'beginItem'                 => $beginItem,
+            'endItem'                   => $endItem,
+        ];
+    }
+
+    /**
+     * @throws \ReflectionException
+     */
+    public function sort_pagination_json($queryBuilder, int $limitPPage, int $page, string $search, PaginatorInterface $paginator): array
+    {
+        $list = [];
+        // Paginate the results of the query
+        $pagination = $paginator->paginate(
+            $queryBuilder, // QueryBuilder
+            $page,         // Aktuelle Seite
+            $limitPPage    // Limit pro Seite
+        );
+
+        $currentPage    = $pagination->getCurrentPageNumber();
+        $totalCount     = $pagination->getTotalItemCount();
+        $beginItem      = $currentPage * $limitPPage - $limitPPage + 1;
+        $endItem        = ($currentPage * $limitPPage > $totalCount) ? $totalCount : $currentPage * $limitPPage;
+
+        # wie kann man keys automaitk erkennen ?
+        foreach ($pagination->getItems() as $item) {
+            $itemArray = $this->loadPersistentCollection($item,"name");
+            $list[] = $itemArray;
+        }
+        return [
+            'list'                      => $list,
+            'currentPage'               => $currentPage,
+            'limitPPage'                => $limitPPage,
+            'search'                    => $search,
+            'totalCount'                => $totalCount,
+            'beginItem'                 => $beginItem,
+            'endItem'                   => $endItem,
+        ];
+    }
+
+    /**
+     * @throws \ReflectionException
+     */
+    public function loadPersistentCollection($Object, $name=null):array
+    {
+        $objArray = $Object->toArray();
+
+        // use Reflection to check all properties of object
+        $reflection = new ReflectionClass($Object);
+        $properties = $reflection->getProperties();
+
+        foreach ($properties as $property) {
+            $propertyName = $property->getName();
+
+            // check properties is PersistentCollection
+            if (isset($objArray[$propertyName]) && $objArray[$propertyName] instanceof PersistentCollection) {
+                $collectionArrays = [];
+                foreach ($objArray[$propertyName] as $collectionItem) {
+                    if (method_exists($collectionItem, 'toArray')) {
+                        $collectionArrays[] = $collectionItem->toArray();
+                    } else {
+                        // if collectionItem doesnt have toArray(), take default infor
+                        $collectionArrays[] = [
+                            'id' => $collectionItem->getId(),
+                            'name' => (string) $collectionItem, // force to string (need to have __toString())
+                        ];
+                    }
+                }
+                $objArray[$propertyName] = ($name)? implode(",", array_column($collectionArrays, 'name')): $collectionArrays;
+            }
+        }
+        return $objArray;
+    }
+}
