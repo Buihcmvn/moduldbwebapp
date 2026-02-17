@@ -1,0 +1,29 @@
+{# templates/Template/_info_table_row.html.twig #}
+<div class="info_table">
+    <div class="show">
+        <p>Showing {{ beginItem }} to 
+            <strong id="limitPerPage">{{ endItem }}</strong> of 
+            <strong id="entries">{{ totalCount }}</strong> entries
+        </p>
+    </div>
+    
+    <div class="page">
+        <img id="previous" 
+             {% if currentPage == 1 %} class="disabled" {% endif %} 
+             src="{{ source_backward_img }}">
+             
+        <img id="previous_end" 
+             {% if currentPage == 1 %} class="disabled" {% endif %} 
+             src="{{ source_backward_end_img }}">
+             
+        <p id="currentPage">{{ currentPage }}</p>
+        
+        <img id="next_end" 
+             {% if endItem == totalCount %} class="disabled" {% endif %} 
+             src="{{ source_forward_end_img }}">
+             
+        <img id="next" 
+             {% if endItem == totalCount %} class="disabled" {% endif %} 
+             src="{{ source_forward_img }}">
+    </div>
+</div>

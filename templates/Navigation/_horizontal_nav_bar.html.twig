@@ -1,0 +1,32 @@
+{# templates/Navigation/_horizontal_nav_bar.html.twig #}
+<div class="horizontal_navigator">
+    <ul id="navbar">
+        <li><a class="home" href="/home">Home</a></li>
+        <li><a class="application" href="/application/list">Application</a></li>
+        <li><a class="hardware" href="/hardware/local/list">Hardware</a></li>
+        <li><a class="software" href="/software/list">Software</a></li>
+        <li><a class="meilenstein" href="/meilenstein">Meilenstein</a></li>
+        <li><a class="bestellung" href="/bestellung/list">Bestellung</a></li>
+        
+        <li class="info">
+            <div class="user">
+                <p>{{ user.getName }}</p>
+                <div class="drop_img">
+                    <img src="{{ source_user_img }}" width="35" height="35">
+                    <div class="dropdown_img_content">
+                        <a href="/logout">Logout</a>
+                    </div>
+                </div>
+                {# Phần chọn Role người dùng nếu có nhiều quyền #}
+                <select name="role" id="user_role">
+                    {% for key, role in userRole %}
+                        <option value="{{ key }}">{{ role }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="about">
+                <a href="/about">About</a>
+            </div>
+        </li>
+    </ul>
+</div>
