@@ -17,10 +17,10 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": [
-    "assets/**/*.ts",
-    "assets/**/*.tsx",
-    "assets/**/*.vue"
-  ],
+  // "include": [
+  //   "assets/**/*.ts",
+  //   "assets/**/*.tsx",
+  //   "assets/**/*.vue"
+  // ],
   "exclude": ["node_modules", "public/build"]
 }

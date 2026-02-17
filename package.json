@@ -4,6 +4,7 @@
         "@babel/preset-env": "^7.16.0",
         "@babel/preset-react": "^7.9.0",
         "@symfony/webpack-encore": "^5.3.1",
+        "@types/webpack-env": "^1.18.8",
         "@vue/compiler-sfc": "^3.5.28",
         "core-js": "^3.38.0",
         "fork-ts-checker-webpack-plugin": "^9.1.0",
@@ -14,7 +15,8 @@
         "vue": "^3.2.14",
         "vue-loader": "^17.0.0",
         "webpack": "^5.74.0",
-        "webpack-cli": "^5.1.0"
+        "webpack-cli": "^5.1.0",
+        "webpack-notifier": "^1.15.0"
     },
     "license": "UNLICENSED",
     "private": true,
@@ -23,5 +25,8 @@
         "dev": "encore dev",
         "watch": "encore dev --watch",
         "build": "encore production --progress"
+    },
+    "dependencies": {
+        "bootstrap": "^5.3.8"
     }
 }
