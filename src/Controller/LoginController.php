@@ -37,15 +37,23 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
     }
 
     #[Route('/signup', name: 'signup')]
-    public function sign(Request $request): Response
+    public function signup(Request $request): Response
     {
         $user = new User();
         $form = $this->createForm(SignupType::class, $user);
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid())
+        if ($form->isSubmitted() )
         {
+
+            // dd([
+            //     'submitted' => $form->isSubmitted(),
+            //     'valid' => $form->isValid(),
+            //     'data' => $form->getData(),
+            //     'request_all' => $request->request->all()
+            // ]);
+
             // Hier können Sie das Passwort hashen, bevor Sie den Benutzer speichern
             $hashedPassword = password_hash($user->getPassword(), PASSWORD_BCRYPT);
             $user->setPassword($hashedPassword);

@@ -1,0 +1,59 @@
+{# templates/registration/register.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {# Liên kết đến các file CSS từ thư mục public/build #}
+    <link rel="stylesheet" href="{{ asset('build/login.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/app.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        {{ form_start(form) }} {# CSRF-Token sẽ tự động được thêm vào đây #}
+            <h1>Signup</h1>
+            
+            <div class="user_info">
+                <div>
+                    {{ form_widget(form.name) }}
+                    <small class="error">{{ form_errors(form.name) }}</small>
+                    <span></span> {# Hiệu ứng focus - đường kẻ màu xanh khi chọn vào ô #}
+                </div>
+                
+                <div>
+                    {{ form_widget(form.username) }}
+                    <small class="error">{{ form_errors(form.username) }}</small>
+                    <span></span>
+                </div>
+
+                <div>
+                    {{ form_widget(form.password) }}
+                    <small class="error">{{ form_errors(form.password) }}</small>
+                    <span></span>
+                </div>
+
+                <div>
+                    {{ form_widget(form.email) }}
+                    <small class="error">{{ form_errors(form.email) }}</small>
+                    <span></span>
+                </div>
+
+                <div>
+                    {{ form_widget(form.abteilung) }}
+                    <small class="error">{{ form_errors(form.abteilung) }}</small>
+                    <span></span>
+                </div>
+
+                <div>
+                    {{ form_widget(form.zusaetzlich) }}
+                    <small class="error">{{ form_errors(form.zusaetzlich) }}</small>
+                    <span></span>
+                </div>
+
+            </div>
+
+            <div class="footer">
+                <p>Already a member? <a href="/login">Login</a> here</p>
+            </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
