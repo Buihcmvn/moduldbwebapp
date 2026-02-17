@@ -1,0 +1,37 @@
+{# templates/Template/_filter_table_row.html.twig #}
+<div class="filter_row">
+    <div class="table_length">
+        Show:
+        <select id="select_length" name="select_length">
+            {% for i in 4..10 %}
+                <option value="{{ i }}" {% if limitPerPage == i %} selected {% endif %}>{{ i }}</option>
+            {% endfor %}
+        </select>
+        entries
+    </div>
+
+    <div class="table_sort">
+        <form method="POST" action="{{ path(pathName, {search: search, limitPerPage: limitPerPage, page: currentPage}) }}">
+            <button type="submit" name="sort" value="up" class="button_sort">
+                <img id="up" src="{{ source_up_img }}" alt="Sort Ascending">
+            </button>
+
+            <select name="sort_field" id="sort_field">
+                {% for property in properties %}
+                    <option value="{{ property.name }}" {% if property.name == sort_field %} selected {% endif %}>{{ property.name }}</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit" name="sort" value="down" class="button_sort">
+                <img id="down" src="{{ source_down_img }}" alt="Sort Descending">
+            </button>
+        </form>
+    </div>
+
+    <div class="table_filter">
+        <label>
+            Search:
+            <input id="search" type="search" placeholder="Search" value="{{ search|default('') }}">
+        </label>
+    </div>
+</div>

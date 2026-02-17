@@ -1,0 +1,38 @@
+{# templates/Navigation/_vertical_nav_bar.html.twig #}
+<div class="vertical_navigator">
+    {% if task == 'projekt_edit' %}
+        <ul class="application_area">
+            <li class="active"><a href="/application/list">Projekt</a>
+                <ul class="hardware_area">
+                    <li><a href="/application/edit/{{ projekt.id }}">{{ projekt.name }}</a></li>
+                </ul>
+            </li>
+            <li class="active"><a href="/hardware/local/list">Hardware</a>
+                <ul class="hardware_area">
+                    {% for hardware in projekt.hardware %}
+                        <li><a href="/hardware/local/edit/{{ hardware.id }}">{{ hardware.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </li>
+            <li class="active"><a href="/software/list">Software</a>
+                <ul class="software_area">
+                    {% for software in projekt.software %}
+                        <li><a href="/software/edit/{{ software.id }}">{{ software.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </li>
+        </ul>
+    {% else %}
+        <ul class="application_area">
+            <li><a href="?area=innhaus" data-area="innhaus" class="nav-item-area">Innhaus</a></li>
+            <li><a href="?area=garten" data-area="garten" class="nav-item-area">Garten</a></li>
+            <li><a href="?area=solar" data-area="solar" class="nav-item-area">Solar</a></li>
+            <li><a href="?area=all" data-area="all" class="nav-item-area">All</a></li>
+        </ul>
+    {% endif %}
+
+    <div class="break"></div>
+    <div class="info">
+        Some More Information
+    </div>
+</div>
