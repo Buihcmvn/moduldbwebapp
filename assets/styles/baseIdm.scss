@@ -1,246 +1,1045 @@
-/* ==========================================================================
-   1. VARIABLES (Biến số)
-   ========================================================================== */
-$primary-blue:   #007bff;
-$text-main:      #333;
-$text-muted:     #666;
-$bg-body:        #f5f5f5;
-$bg-white:       #fff;
-$border-color:   #ddd;
-$shadow-sm:      0 2px 4px rgba(0, 0, 0, 0.05);
-$shadow-lg:      0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-$transition:     all 0.3s ease;
-
-/* ==========================================================================
-   2. GLOBAL RESET
-   ========================================================================== */
+/* Global Reset & Font */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+    margin: 0; /* Resets the outer spacing of all elements to 0 */
+    padding: 0; /* Resets the inner spacing of all elements to 0 */
+    box-sizing: border-box; /* Ensures padding and border are included in the element's total width and height */
 }
-
 body {
-    min-height: 100vh;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: $bg-body;
-    color: $text-main;
-    font-size: 14px;
+    min-height: 100vh; /* Sets the minimum height of the body to 100% of the viewport height */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Specifies a font stack for the entire document */
+    background-color: #f5f5f5; /* Light grey background for the page */
+    color: #333; /* Sets the default text color to a dark grey */
+    font-size: 14px; /* Sets the base font size for the document */
 }
 
 .page-container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    width: 1200px;
-    margin: 0 auto;
-    background-color: $bg-white;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    display: flex; /* Makes the container a flex container */
+    flex-direction: column; /* Arranges flex items vertically, stacking them */
+    min-height: 100vh; /* Sets the minimum height to 100% of the viewport height */
+    width: 1200px; /* Sets a fixed width for the page container */
+    margin: 0 auto; /* Centers the container horizontally within its parent */
+    background-color: #fff; /* Sets the background color to white */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05); /* Adds a subtle shadow around the container */
 }
-
-/* ==========================================================================
-   3. MIXINS (Mã dùng chung)
-   ========================================================================== */
-@mixin dropdown-base {
-    display: none;
-    position: absolute;
-    background-color: $bg-white;
-    box-shadow: $shadow-lg;
-    z-index: 100;
-    border-radius: 5px;
-}
-
-/* ==========================================================================
-   4. HORIZONTAL NAVIGATOR (Thanh điều hướng ngang)
-   ========================================================================== */
+/* --- Top Navigation Bar (horizontal_navigator) --- */
 .horizontal_navigator {
-    width: 100%;
-    background-color: $bg-white;
-    padding: 10px 20px;
-    border-bottom: 1px solid $border-color;
-    box-shadow: $shadow-sm;
-
-    .logo {
-        font-size: 24px;
-        font-weight: bold;
-        color: #000;
-        margin-right: 30px;
+    width: 100%; /* Sets the width to 100% of its parent */
+    position: relative; /* Establishes a positioning context for absolutely positioned children */
+    background-color: #fff; /* Sets the background color to white */
+    padding: 10px 20px; /* Adds 10px padding top/bottom and 20px left/right */
+    border-bottom: 1px solid #ddd; /* Adds a 1px solid light grey border at the bottom */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Adds a subtle shadow at the bottom */
+}
+.horizontal_navigator .logo {
+    font-size: 24px; /* Sets the font size for the logo */
+    font-weight: bold; /* Makes the logo text bold */
+    color: #000; /* Sets the logo text color to black */
+    margin-right: 30px; /* Adds 30px margin to the right of the logo */
+}
+.horizontal_navigator ul#navbar {
+    list-style: none; /* Removes bullet points from the list */
+    margin: 0; /* Resets the outer spacing of the list */
+    padding: 0; /* Resets the inner spacing of the list */
+    display: flex; /* Makes the unordered list a flex container */
+    align-items: center; /* Vertically centers flex items within the list */
+    width: 100%; /* Sets the width to 100% of its parent */
+}
+.horizontal_navigator ul#navbar li {
+    float: none; /* Prevents floating, ensuring flexbox layout takes precedence */
+    position: relative; /* Establishes a positioning context for absolutely positioned children (e.g., dropdowns) */
+    &:first-child { /* Targets the first list item */
+        margin-right: 30px; /* Adds 30px margin to the right of the first list item */
     }
-
-    ul#navbar {
-        list-style: none;
-        display: flex;
-        align-items: center;
-        width: 100%;
-
-        li {
-            position: relative;
-            
-            &:first-child { margin-right: 30px; }
-            & > a.home { margin-left: 20px; }
-
-            a {
-                text-decoration: none;
-                color: $text-muted;
-                font-weight: 600;
-                padding: 8px 0;
-                display: block;
-                transition: $transition;
-                text-align: center;
-                margin: 0 25px;
-
-                &:hover, &.active { color: $primary-blue; }
-
-                &.active::after {
-                    content: '';
-                    position: absolute;
-                    bottom: -11px;
-                    left: 0;
-                    width: 100%;
-                    height: 3px;
-                    background-color: $primary-blue;
-                    border-radius: 2px;
-                }
-            }
-
-            /* --- USER INFO & AVATAR --- */
-            &.info {
-                margin-left: auto;
-                display: flex;
-                align-items: center;
-                gap: 20px;
-
-                .user {
-                    display: flex;
-                    align-items: center;
-                    gap: 10px;
-
-                    p { margin: 0; font-weight: 500; color: $text-main; }
-
-                    select#user_role {
-                        padding: 5px 10px;
-                        border: 1px solid $border-color;
-                        border-radius: 4px;
-                        background-color: #f9f9f9;
-                        cursor: pointer;
-                        &:focus { border-color: $primary-blue; outline: none; }
-                    }
-
-                    .drop_img {
-                        position: relative;
-                        cursor: pointer;
-                        img {
-                            border-radius: 50%;
-                            border: 1px solid #ccc;
-                            padding: 2px;
-                            background-color: #f0f0f0;
-                        }
-                        &:hover .dropdown_img_content { display: block; }
-                    }
-                }
-
-                .about a {
-                    text-decoration: none;
-                    color: $text-muted;
-                    font-weight: 600;
-                    padding: 8px 10px;
-                    border-radius: 5px;
-                    transition: $transition;
-                    &:hover { background-color: #f0f0f0; color: $primary-blue; }
-                }
-            }
-        }
+    & > a.home { /* Targets an anchor tag with class 'home' that is a direct child of the list item */
+        margin-left: 20px; /* Adds 20px margin to the left of the 'home' link */
     }
-
-    .user-actions {
-        display: flex;
-        align-items: center;
-        .icon {
-            font-size: 20px;
-            color: $text-muted;
-            margin-left: 20px;
-            cursor: pointer;
-            padding: 5px;
-            &:hover { color: $primary-blue; }
+}
+.horizontal_navigator ul#navbar li a {
+    text-decoration: none; /* Removes underline from links */
+    color: #666; /* Sets the link text color to grey */
+    font-weight: 600; /* Makes the link text semi-bold */
+    padding: 8px 0; /* Adds 8px padding top/bottom and 0px left/right */
+    display: block; /* Makes the link take up the full width available within its parent li */
+    transition: color 0.3s ease; /* Adds a smooth transition for color changes on hover */
+    text-align: center; /* Centers the text horizontally */
+    margin: 0 25px; /* Adds 0px top/bottom margin and 25px left/right margin */
+    position: relative; /* <--- IMPORTANT: This establishes a positioning context for the ::after pseudo-element */
+}
+.horizontal_navigator ul#navbar li a:hover {
+    color: #007bff; /* Changes the link text color to Bootstrap primary blue on hover */
+}
+.horizontal_navigator ul#navbar li a.active {
+    color: #007bff; /* Sets the link text color to Bootstrap primary blue when active */
+}
+.horizontal_navigator ul#navbar li a.active::after {
+    content: ''; /* Creates an empty pseudo-element */
+    position: absolute; /* Positions the pseudo-element absolutely relative to its parent (the <a> tag) */
+    bottom: -11px; /* Positions the pseudo-element 11px below the bottom of the <a> tag */
+    left: 0; /* Aligns the left edge of the pseudo-element with the left edge of the <a> tag */
+    width: 100%; /* Sets the width of the pseudo-element to 100% of its parent (the <a> tag) */
+    height: 3px; /* Sets the height of the pseudo-element */
+    background-color: #007bff; /* Sets the background color to Bootstrap primary blue */
+    border-radius: 2px; /* Rounds the corners of the pseudo-element */
+}
+.horizontal_navigator ul#navbar li.info {
+    width: auto; /* Allows the width to be determined by its content */
+    margin-left: auto; /* Pushes this flex item to the far right within the navbar */
+    display: flex; /* Makes this list item a flex container */
+    flex-direction: row; /* Arranges flex items horizontally */
+    align-items: center; /* Vertically centers flex items within this container */
+    gap: 20px; /* Adds a 20px gap between direct children */
+}
+.horizontal_navigator ul#navbar li.info .user {
+    width: auto; /* Allows the width to be determined by its content */
+    color: #666; /* Sets the text color to grey */
+    display: flex; /* Makes the user container a flex container */
+    flex-direction: row; /* Arranges flex items horizontally */
+    align-items: center; /* Vertically centers flex items within the user container */
+    gap: 10px; /* Adds a 10px gap between direct children (e.g., image and text) */
+}
+.horizontal_navigator ul#navbar li.info .user select {
+    display: none; /* Hides the select element */
+}
+// Style cho dropdown image logo (item 1)
+.horizontal_navigator ul#navbar li .img_dropdown {
+    height: 100%; /* Sets the height to 100% of its parent li */
+    display: flex; /* Makes the dropdown container a flex container */
+    align-items: center; /* Vertically centers flex items */
+    justify-content: center; /* Horizontally centers flex items */
+    padding: 5px; /* Adds 5px padding */
+    cursor: pointer; /* Changes the cursor to a pointer on hover */
+    img { /* Styles the image inside the dropdown */
+        display: block; /* Ensures the image behaves as a block element */
+    }
+}
+.horizontal_navigator ul#navbar li .img_dropdown:hover .img_dropdown_content {
+    display: block; /* Shows the dropdown content when hovering over the dropdown image */
+}
+.horizontal_navigator ul#navbar li .img_dropdown .img_dropdown_content {
+    display: none; /* Hides the dropdown content by default */
+    position: absolute; /* Positions the dropdown content absolutely */
+    min-width: 200px; /* Sets a minimum width for the dropdown */
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2); /* Adds a shadow for depth */
+    z-index: 100; /* Ensures the dropdown appears above other content */
+    top: 45px; /* Positions the dropdown 45px from the top of its relative parent */
+    left: 0; /* Aligns the left edge with its relative parent */
+    background-color: #fff; /* Sets the background color to white */
+    border-radius: 5px; /* Rounds the corners of the dropdown */
+    padding: 10px; /* Adds padding inside the dropdown content */
+    img {
+        display: block; /* Ensures the image behaves as a block element */
+        max-width: 100%; /* Ensures the image doesn't overflow its container */
+        height: auto; /* Maintains the aspect ratio of the image */
+    }
+}
+.horizontal_navigator ul#navbar li.info .user .drop_img {
+    position: relative; /* Establishes a positioning context for its absolutely positioned children */
+    cursor: pointer; /* Changes the cursor to a pointer on hover */
+    display: flex; /* Makes the image drop container a flex container */
+    align-items: center; /* Vertically centers flex items */
+    img { /* Styles the image inside the drop_img */
+        border-radius: 50%; /* Makes the image circular */
+        border: 1px solid #ccc; /* Adds a light grey border */
+        padding: 2px; /* Adds padding around the image */
+        background-color: #f0f0f0; /* Sets a very light grey background */
+    }
+}
+.horizontal_navigator ul#navbar li.info .user .drop_img:hover .dropdown_img_content {
+    display: block; /* Shows the dropdown content when hovering over the drop_img */
+}
+.horizontal_navigator ul#navbar li.info .user .drop_img .dropdown_img_content {
+    display: none; /* Hides the dropdown content by default */
+    position: absolute; /* Positions the dropdown content absolutely */
+    background-color: #fff; /* Sets the background color to white */
+    min-width: 120px; /* Sets a minimum width for the dropdown */
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2); /* Adds a shadow for depth */
+    z-index: 100; /* Ensures the dropdown appears above other content */
+    left: auto; /* Resets left positioning */
+    right: 0; /* Positions the dropdown to the far right of its relative parent */
+    top: 30px; /* Positions the dropdown 30px from the top of its relative parent */
+    border-radius: 5px; /* Rounds the corners of the dropdown */
+    padding: 5px 0; /* Adds 5px top/bottom padding and 0px left/right */
+    a { /* Styles links inside the dropdown content */
+        color: #333; /* Sets the link text color to dark grey */
+        padding: 8px 15px; /* Adds 8px top/bottom and 15px left/right padding */
+        text-decoration: none; /* Removes underline from links */
+        display: block; /* Makes the link take up the full width available */
+        text-align: center; /* Centers the text horizontally */
+        &:hover { /* Styles links on hover */
+            background-color: #f0f0f0; /* Changes background color on hover */
         }
     }
 }
-
-/* ==========================================================================
-   5. DROPDOWN CONTENTS (Hệ thống Menu thả xuống)
-   ========================================================================== */
-.img_dropdown_content, .dropdown_img_content, .dropdown_content {
-    @include dropdown-base;
+.horizontal_navigator ul#navbar li.info .user p {
+    margin: 0; /* Resets outer spacing */
+    font-weight: 500; /* Sets text weight to medium */
+    color: #333; /* Sets text color to dark grey */
 }
-
+.horizontal_navigator ul#navbar li.info .user select#user_role {
+    display: block; /* Makes the select element behave as a block */
+    padding: 5px 10px; /* Adds 5px top/bottom and 10px left/right padding */
+    border: 1px solid #ccc; /* Adds a light grey border */
+    border-radius: 4px; /* Rounds the corners */
+    background-color: #f9f9f9; /* Sets a very light grey background */
+    cursor: pointer; /* Changes the cursor to a pointer on hover */
+    font-size: 14px; /* Sets the font size */
+    color: #555; /* Sets the text color to medium grey */
+    &:focus { /* Styles the select element when it's focused */
+        border-color: #007bff; /* Changes border color to Bootstrap primary blue */
+        outline: none; /* Removes the default outline */
+    }
+}
+.horizontal_navigator ul#navbar li.info .about { // Link "About"
+    a { /* Styles the "About" link */
+        text-decoration: none; /* Removes underline */
+        color: #666; /* Sets text color to grey */
+        font-weight: 600; /* Sets font weight to medium */
+        padding: 8px 10px; /* Adds padding */
+        border-radius: 5px; /* Rounds the corners */
+        transition: background-color 0.3s, color 0.3s; /* Smooth transition for background and color */
+        &:hover { /* Styles the "About" link on hover */
+            background-color: #f0f0f0; /* Changes background color on hover */
+            color: #007bff; /* Changes text color to Bootstrap primary blue on hover */
+        }
+    }
+}
 .dropdown_img_content {
-    min-width: 120px;
-    right: 0;
-    top: 30px;
-    padding: 5px 0;
-    a {
-        color: $text-main;
-        padding: 8px 15px;
-        text-decoration: none;
-        display: block;
-        text-align: center;
-        &:hover { background-color: #f0f0f0; }
-    }
-}
-
-.dropdown_content {
-    min-width: 160px;
-    top: 45px;
-    &.pos-left { left: 122px; }
-    &.pos-offset { top: -140px; left: -180px; }
-}
-
-/* ==========================================================================
-   6. MAIN CONTENT & TABLE (Nội dung chính và Bảng)
-   ========================================================================== */
-.main {
-    width: 100%;
-    flex-grow: 1;
-    display: flex;
-    gap: 20px;
-    padding: 0 0 20px 0;
-
-    .projekt {
-        flex-grow: 1;
-        display: flex;
-        flex-direction: column;
-
-        .content_header_table {
-            width: 100%;
-            border-collapse: collapse;
-            tr { display: flex; width: 100%; }
-            th, td {
-                flex: 1;
-                padding: 8px;
-                text-align: left;
-                box-sizing: border-box;
-            }
-            .content_title { flex: 0 0 150px; }
-            .content_navigator { flex: 2; }
-            .content_symbol {
-                flex: 0 0 auto;
-                img { width: 32px; height: 32px; cursor: pointer; }
-            }
+    display: none; /* Hides the dropdown content by default */
+    position: absolute; /* Positions the dropdown content absolutely */
+    background-color: #fff; /* Sets background color to white */
+    min-width: 160px; /* Sets a minimum width */
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2); /* Adds a shadow */
+    z-index: 100; /* Ensures it appears above other content */
+    left: auto; /* Resets left positioning */
+    right: 0; /* Positions to the far right */
+    top: 45px; /* Positions 45px from the top */
+    border-radius: 5px; /* Rounds the corners */
+    padding: 5px 0; /* Adds 5px top/bottom padding */
+    a { /* Styles links inside */
+        color: #333; /* Sets text color to dark grey */
+        padding: 8px 15px; /* Adds padding */
+        text-decoration: none; /* Removes underline */
+        display: block; /* Makes link take full available width */
+        text-align: left; /* Aligns text to the left */
+        &:hover { /* Styles links on hover */
+            background-color: #f0f0f0; /* Changes background color on hover */
         }
     }
 }
-
-/* ==========================================================================
-   7. GRID SYSTEM (Bố cục hàng/cột)
-   ========================================================================== */
-.grid {
-    display: flex;
-    flex-direction: column;
-    margin: auto;
+.dropdown:hover .dropdown_content {
+    display: block; /* Shows the dropdown content on hover */
 }
-
+.dropdown_content {
+    display: none; /* Hides the dropdown content by default */
+    position: absolute; /* Positions absolutely */
+    background-color: #fff; /* Sets background color to white */
+    min-width: 160px; /* Sets a minimum width */
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2); /* Adds a shadow */
+    z-index: 100; /* Ensures it appears above other content */
+    left: 122px; /* Positions 122px from the left */
+    top: 45px; /* Positions 45px from the top */
+}
+.img_dropdown {
+    height: 100%; /* Sets height to 100% */
+    width: 100%; /* Sets width to 100% */
+    display: flex; /* Makes it a flex container */
+    align-items: center; /* Vertically centers flex items */
+    justify-content: center; /* Horizontally centers flex items */
+    padding: 5px; /* Adds padding */
+}
+.horizontal_navigator ul#navbar li div.img_dropdown:hover .img_dropdown_content {
+    display: block; /* Shows dropdown content on hover */
+}
+.img_dropdown_content {
+    display: none; /* Hides dropdown content by default */
+    position: absolute; /* Positions absolutely */
+    min-width: 200px; /* Sets a minimum width */
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2); /* Adds a shadow */
+    z-index: 1; /* Sets z-index */
+    top: -140px; /* Positions 140px above the top */
+    left: -180px; /* Positions 180px to the left */
+}
+.horizontal_navigator .user-actions .icon {
+    font-size: 20px; /* Sets font size */
+    color: #666; /* Sets color to grey */
+    margin-left: 20px; /* Adds left margin */
+    cursor: pointer; /* Changes cursor to pointer */
+    position: relative; /* Establishes positioning context */
+    padding: 5px; /* Adds padding */
+    &:hover { /* Styles on hover */
+        color: #007bff; /* Changes color to blue on hover */
+    }
+}
+.horizontal_navigator .user-actions .dropdown-arrow {
+    font-size: 10px; /* Sets font size */
+    margin-left: 3px; /* Adds left margin */
+    vertical-align: top; /* Aligns vertically to the top */
+}
+/* --- Main Content Area ---------------------------------------------------------------------------------------------- */
+.main {
+    width: 100%; /* Sets width to 100% */
+    flex-grow: 1; /* Allows it to grow and fill available space */
+    display: flex; /* Makes it a flex container */
+    justify-content: flex-start; /* Aligns flex items to the start of the main axis */
+    align-items: stretch; /* Stretches flex items to fill the container along the cross axis (height in this case) */
+    gap: 20px; /* Adds a 20px gap between flex items */
+    padding: 0 0 20px 0; /* Adds 20px bottom padding */
+}
+.main .projekt {
+    flex-grow: 1; /* It automatically expands to fill the remaining space (...px). */
+    display: flex; /* Makes it a flex container */
+    flex-direction: column; /* Arranges flex items vertically */
+    min-width: 0;
+}
+.main .projekt .content_header table {
+    width: 100%; /* Sets width to 100% */
+    border-collapse: collapse; /* Border-collapse is still available for the board edges. */
+}
+.main .projekt .content_header table tr {
+    display: flex; /* Makes the table row a flex container */
+    width: 100%; /* Ensures the table row takes full width */
+}
+.main .projekt .content_header table th,
+.main .projekt .content_header table td {
+    /* width: 33%; */ /* This line was commented out, which is correct */
+    flex-grow: 1; /* Allows the table cell to grow and fill available space */
+    flex-shrink: 1; /* Allows the table cell to shrink if needed */
+    flex-basis: auto; /* Base size of the table cell is determined by its content */
+    /* Shorthand for the above three properties */
+    padding: 8px; /* Adds padding inside the table cell */
+    text-align: left; /* Aligns text to the left */
+    //border: 1px solid #dddddd;  /* This line is commented out */
+    vertical-align: top; /* Aligns content to the top vertically */
+    box-sizing: border-box; /* Ensures padding and border are included in the element's total width and height */
+}
+.main .projekt .content_header table th.content_title,
+.main .projekt .content_header table td.content_title {
+    flex-basis: 150px; /* Sets a base width of 150px */
+    flex-grow: 0; /* Prevents this column from growing beyond its content/flex-basis */
+    flex-shrink: 1; /* Allows this column to shrink if space is limited */
+}
+.main .projekt .content_header table th.content_navigator,
+.main .projekt .content_header table td.content_navigator {
+    flex-grow: 2; /* Allows this column to grow twice as much as other columns with flex-grow: 1 */
+    flex-basis: 200px; /* Sets a base width of 200px */
+}
+.main .projekt .content_header table th.content_symbol,
+.main .projekt .content_header table td.content_symbol {
+    flex-grow: 0; /* Prevents this column from growing */
+    flex-shrink: 0; /* Prevents this column from shrinking below its content/flex-basis */
+    flex-basis: content; /* Sets the base width to exactly fit its content */
+    text-align: right; /* Aligns text (and inline content like buttons) to the right */
+    white-space: nowrap; /* Prevents the content (e.g., button text) from wrapping to the next line */
+}
+.main .projekt .content_header table td.content_symbol button {
+    position: static; /* Ensures the button is positioned normally within the document flow */
+    right: auto; /* Resets any right positioning */
+}
+.main .projekt .content_header table td.content_symbol img {
+    width: 32px; /* Sets the width of images inside content_symbol table cells */
+    height: 32px; /* Sets the height of images inside content_symbol table cells */
+    cursor: pointer; /* Changes the cursor to a pointer on hover */
+}
+/* --- Main Content Area CSS End ------------------------------------------------------------------------------------------- */
+/* --- Home CSS Start ------------------------------------------------------------------------------------------- */
+.grid {
+    display: flex; /* Makes the grid a flex container */
+    flex-direction: column; /* Arranges flex items vertically */
+    margin: auto; /* Centers the grid horizontally */
+}
 .row {
-    display: flex;
-    width: 100%;
-    margin-top: 20px;
+    display: flex; /* Makes rows flex containers */
+    width: 100%; /* Sets width to 100% */
+    margin-top: 20px; /* Adds top margin */
+}
+article {
+    position: relative; /* Establishes a positioning context */
+    background-color: #000; /* Sets background color to black */
+    color: #fff; /* Sets text color to white */
+    overflow: hidden; /* Hides content that overflows the element's box */
+    border-radius: 10px; /* Rounds the corners */
+    background-size: cover; /* Scales the background image to cover the entire element */
+    background-position: center; /* Centers the background image */
+    background-repeat: no-repeat; /* Prevents the background image from repeating */
+    margin: 15px; /* Adds margin around the article */
+    display: flex; /* Makes the article a flex container */
+    flex-direction: column; /* Arranges flex items vertically */
+    justify-content: flex-end; /* Aligns flex items to the end of the main axis (bottom) */
+    transition: transform 0.3s ease; /* Adds a smooth transition for transform properties */
+}
+article:hover {
+    transform: scale(1.05); /* Scales the article up by 5% on hover */
+}
+.article-large {
+    flex: 0 0 55%; /* Sets flex-basis to 55% (controlling width) and prevents growth/shrinkage */
+    height: 350px; /* Sets a fixed height */
+}
+.article-middle {
+    flex: 0 0 38%; /* Sets flex-basis to 38% and prevents growth/shrinkage */
+    height: 350px; /* Sets a fixed height */
+}
+.article-small {
+    flex: 0 0 30%; /* Sets flex-basis to 30% and prevents growth/shrinkage */
+    height: 200px; /* Sets a fixed height */
+}
+article h3 {
+    margin: 5px 0; /* Adds 5px top/bottom margin */
+}
+article p {
+    font-size: 0.9em; /* Sets font size to 0.9 times the parent's font size */
+    margin: 2px 0; /* Adds 2px top/bottom margin */
+}
+.meta {
+    font-size: 0.8em; /* Sets font size to 0.8 times the parent's font size */
+    color: #ccc; /* Sets color to light grey */
+}
+/* --- Home CSS End --------------------------------------------------------------------------------------------- */
+/* --- Project CSS ---------------------------------------------------------------------------------------------- */
+button, .add_projekt input {
+    border: none; /* Removes the border */
+    padding: 10px 20px; /* Adds padding */
+    border-radius: 5px; /* Rounds the corners */
+    cursor: pointer; /* Changes cursor to pointer */
+}
+button img{
+    width: 48px; /* Sets image width */
+    height: 48px; /* Sets image height */
+}
+button:hover, button[type="submit"]:hover {
+    background-color: #d9dadb;
+}
+.projekt form table {
+    width: 100%; /* Sets width to 100% */
+}
+.projekt form table tr {
+    margin-top: 10px; /* Adds top margin */
+}
+.projekt form table td {
+    padding: 10px; /* Adds padding */
+}
+.projekt form table td img{
+    width: 40%; /* Sets image width to 40% of its parent td */
+}
+/* Liste Projekte */
+.liste_projekte {
+    flex-grow: 1; /* Allows it to grow and fill available space */
+    background: #fff; /* Sets white background */
+    padding: 20px; /* Adds padding */
+    border-radius: 8px; /* Rounds corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); /* Adds a subtle shadow */
+    h2 { /* Styles h2 inside liste_projekte */
+        font-size: 24px; /* Sets font size */
+        font-weight: 600; /* Sets font weight to semi-bold */
+        margin-bottom: 20px; /* Adds bottom margin */
+        color: #333; /* Sets text color to dark grey */
+    }
+}
+/* --- Project CSS End ---------------------------------------------------------------------------------------------- */
+/* Vertical Navigator ----------------------------------------------------------------------------------------------- */
+.vertical_navigator {
+    width: 250px; /* Fixed width for the vertical navigator */
+    background-color: #fff; /* White background */
+    border-radius: 8px; /* Rounds corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+    padding-bottom: 20px; /* Adds bottom padding */
+    flex-shrink: 0; /* Prevents it from shrinking */
+}
+.vertical_navigator .application_area {
+    list-style-type: none; /* Removes bullet points */
+    padding: 0; /* Resets padding */
+    margin: 0; /* Resets margin */
+}
+.vertical_navigator .application_area > li {
+    border-bottom: 1px solid #eee; /* Adds a light grey bottom border */
+    &:last-child { /* Targets the last list item */
+        border-bottom: none; /* Removes the bottom border from the last item */
+    }
+}
+.vertical_navigator .application_area > li > a {
+    display: block; /* Makes the link take full width */
+    width: 100%; /* Sets width to 100% */
+    padding: 15px 20px; /* Adds padding */
+    color: #333; /* Sets text color to dark grey */
+    font-size: 16px; /* Sets font size */
+    font-weight: 500; /* Sets font weight to medium */
+    text-decoration: none; /* Removes underline */
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition for background and color */
+    &:hover { /* Styles on hover */
+        background-color: #f0f8ff; /* Changes background color to very light blue */
+        color: #007bff; /* Changes text color to Bootstrap primary blue */
+    }
+    &.active { /* Styles when active */
+        background-color: #e6f7ff; /* Changes background color to light blue */
+        color: #007bff; /* Changes text color to Bootstrap primary blue */
+        font-weight: 600; /* Sets font weight to semi-bold */
+        border-left: 3px solid #007bff; /* Adds a blue left border */
+        padding-left: 17px; /* Adjusts left padding to compensate for border width */
+    }
+}
+.vertical_navigator .hardware_area,
+.vertical_navigator .software_area {
+    list-style-type: none; /* Removes bullet points */
+    padding: 0; /* Resets padding */
+    margin: 0; /* Resets margin */
+    background-color: #f9f9f9; /* Sets very light grey background */
+    border-top: 1px solid #eee; /* Adds a light grey top border */
+    display: none; /* Hides by default */
+}
+.vertical_navigator .application_area > li.active > .hardware_area,
+.vertical_navigator .application_area > li.active > .software_area {
+    display: block; /* Shows when the parent li is active */
+}
+.vertical_navigator .hardware_area li a,
+.vertical_navigator .software_area li a {
+    display: block; /* Makes the link take full width */
+    width: 100%; /* Sets width to 100% */
+    padding: 10px 20px 10px 40px; /* Adds padding */
+    color: #555; /* Sets text color to medium grey */
+    font-size: 13px; /* Sets font size */
+    text-decoration: none; /* Removes underline */
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition for background and color */
+    &:hover { /* Styles on hover */
+        background-color: #e0f2ff; /* Changes background color to light blue */
+        color: #007bff; /* Changes text color to Bootstrap primary blue */
+    }
+    &.active { /* Styles when active */
+        background-color: #d9edf7; /* Changes background color to light blue */
+        color: #007bff; /* Changes text color to Bootstrap primary blue */
+        font-weight: 600; /* Sets font weight to semi-bold */
+    }
+}
+.vertical_navigator .break {
+    width: 100%; /* Sets width to 100% */
+    height: 10px; /* Sets height to 10px */
+    background-color: #f0f0f0; /* Sets very light grey background */
+    margin: 20px 0; /* Adds 20px top/bottom margin */
+    border-top: 1px solid #eee; /* Adds light grey top border */
+    border-bottom: 1px solid #eee; /* Adds light grey bottom border */
+}
+.vertical_navigator .info {
+    width: 100%; /* Sets width to 100% */
+    padding: 20px; /* Adds padding */
+    background-color: #f0f8ff; /* Sets very light blue background */
+    text-align: center; /* Centers text horizontally */
+    color: #555; /* Sets text color to medium grey */
+    font-size: 14px; /* Sets font size */
+    border-radius: 0 0 8px 8px; /* Rounds bottom corners */
+    margin-top: 20px; /* Adds top margin */
+    border-top: 1px solid #e0e0e0; /* Adds light grey top border */
+    h3 { /* Styles h3 inside info */
+        font-size: 16px; /* Sets font size */
+        margin-bottom: 10px; /* Adds bottom margin */
+        color: #333; /* Sets text color to dark grey */
+    }
+    p { /* Styles p inside info */
+        line-height: 1.5; /* Sets line height */
+    }
+}
+/* --- Vertical Navigator End ---------------------------------------------------------------------------------------- */
+.content-area {
+    padding: 0; /* Resets padding */
+    flex-grow: 1; /* Allows it to grow and fill available space */
+}
+.page-title {
+    font-size: 24px; /* Sets font size */
+    font-weight: 600; /* Sets font weight to semi-bold */
+    margin-bottom: 20px; /* Adds bottom margin */
+    color: #333; /* Sets text color to dark grey */
+}
+/* --- Filter Section ------------------------------------------------------------------------------------------- */
+.filter-section {
+    background-color: #fff; /* White background */
+    border-radius: 5px; /* Rounds corners */
+    padding: 15px; /* Adds padding */
+    margin-bottom: 20px; /* Adds bottom margin */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08); /* Subtle shadow */
+    display: flex; /* Makes it a flex container */
+    align-items: center; /* Vertically centers flex items */
+    justify-content: space-between; /* Distributes space between flex items */
+}
+.filter-buttons {
+    display: flex; /* Makes it a flex container */
+    align-items: center; /* Vertically centers flex items */
+    gap: 10px; /* Adds a 10px gap between flex items */
+}
+.filter-btn {
+    background-color: #f0f8ff; /* Very light blue background */
+    border: 1px solid #cfe2f3; /* Light blue border */
+    border-radius: 20px; /* Rounds corners significantly */
+    padding: 8px 15px; /* Adds padding */
+    cursor: pointer; /* Changes cursor to pointer */
+    display: flex; /* Makes it a flex container */
+    align-items: center; /* Vertically centers flex items */
+    color: #007bff; /* Bootstrap primary blue text color */
+    font-size: 14px; /* Sets font size */
+    transition: background-color 0.3s ease, border-color 0.3s ease; /* Smooth transition */
+    &:hover { /* Styles on hover */
+        background-color: #e0f2ff; /* Lighter blue background on hover */
+        border-color: #9acafb; /* Lighter blue border on hover */
+    }
+    &.active { /* Styles when active */
+        background-color: #007bff; /* Bootstrap primary blue background */
+        border-color: #007bff; /* Bootstrap primary blue border */
+        color: #fff; /* White text color */
+    }
+    .icon { /* Styles an icon within the button */
+        font-size: 18px; /* Sets font size */
+        margin-right: 5px; /* Adds right margin */
+    }
+    .dropdown-arrow { /* Styles a dropdown arrow within the button */
+        font-size: 10px; /* Sets font size */
+        margin-left: 5px; /* Adds left margin */
+    }
+}
+/* --- Filter Section End ------------------------------------------------------------------------------------------- */
+.toggle-switch {
+    display: flex; /* Makes it a flex container */
+    align-items: center; /* Vertically centers flex items */
+}
+.toggle-switch .icon {
+    font-size: 18px; /* Sets font size */
+    color: #666; /* Sets color to grey */
+    margin-right: 10px; /* Adds right margin */
+}
+/* The switch - the box around the slider */
+.switch {
+    position: relative; /* Establishes positioning context */
+    display: inline-block; /* Allows width/height to be set and flow inline */
+    width: 40px; /* Fixed width */
+    height: 20px; /* Fixed height */
+    margin-right: 10px; /* Adds right margin */
+}
+/* Hide default HTML checkbox */
+.switch input {
+    opacity: 0; /* Makes the checkbox invisible */
+    width: 0; /* Sets width to 0 */
+    height: 0; /* Sets height to 0 */
+}
+/* The slider */
+.slider {
+    position: absolute; /* Positions absolutely relative to its parent .switch */
+    cursor: pointer; /* Changes cursor to pointer */
+    top: 0; /* Aligns to top */
+    left: 0; /* Aligns to left */
+    right: 0; /* Aligns to right */
+    bottom: 0; /* Aligns to bottom */
+    background-color: #ccc; /* Sets light grey background */
+    transition: .4s; /* Smooth transition for 0.4 seconds */
+    border-radius: 34px; /* Rounds corners significantly */
+}
+.slider:before {
+    position: absolute; /* Positions absolutely relative to its parent .slider */
+    content: ""; /* Creates an empty pseudo-element */
+    height: 16px; /* Fixed height */
+    width: 16px; /* Fixed width */
+    left: 2px; /* Positions 2px from the left */
+    bottom: 2px; /* Positions 2px from the bottom */
+    background-color: white; /* White background */
+    transition: .4s; /* Smooth transition for 0.4 seconds */
+    border-radius: 50%; /* Makes it circular */
+}
+input:checked + .slider {
+    background-color: #007bff; /* Changes background color to blue when checkbox is checked */
+}
+input:focus + .slider {
+    box-shadow: 0 0 1px #007bff; /* Adds a blue shadow on focus */
+}
+input:checked + .slider:before {
+    transform: translateX(20px); /* Moves the circle 20px to the right when checked */
+}
+.toggle-label {
+    font-size: 14px; /* Sets font size */
+    color: #555; /* Sets text color to medium grey */
+}
+// /* --- Table Styling --- */
+.liste_table {
+    width: 100%; /* Sets width to 100% */
+}
+.table-container {
+    background-color: #fff; /* White background */
+    border-radius: 5px; /* Rounds corners */
+    overflow: hidden; /* Hides overflowing content */
+    margin-left: 20px; /* Adds left margin */
+    margin-right: 20px; /* Adds right margin */
+}
+.liste_table table { /* Styles the table element within .liste_table */
+    width: 100%; /* Sets the table width to 100% of its parent container */
+    border-collapse: collapse; /* Collapses table borders into a single border (though less relevant with flex-based rows) */
+    min-width: 900px; /* Table can still have a minimum width (original comment) */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Specifies the font stack for table content */
+}
+.liste_table table th,
+.liste_table table td {
+    padding: 12px 15px; /* Adds padding */
+    text-align: left; /* Aligns text to the left */
+    border: none; /* Removes borders */
+    color: #333; /* Dark grey text color */
+    border-bottom: 1px solid #d3d3d3; /* Light grey bottom border */
+}
+.liste_table table thead {
+    th { /* Styles table header cells */
+        position: sticky; /* Makes the header sticky */
+        background-color: #d9dadb; /* light grey background */
+        font-weight: 600; /* Semi-bold font weight */
+        color: #555; /* Medium grey text color */
+        position: sticky; /* Makes the header sticky */
+        top: 0; /* Sticks to the top */
+        z-index: 10; /* Ensures it stays on top */
+        border-bottom: 1px solid #a0a0a0; /* Adds a light grey bottom border */
+    }
+}
+.liste_table table thead tr, /* Targets table header rows ###################### */
+.liste_table table tbody tr { /* Targets table body rows */
+    // display: flex; /* Makes each table row a flex container */
+    width: 100%; /* Ensures the table row takes up 100% of its parent's width */
+    border-bottom: 1px solid #d3d3d3; /* Adds a light grey bottom border to each row */
+    height: 60px; /* Sets a fixed height for each table row */
+    align-items: center; /* Vertically centers the content within each table row */
+}
+.liste_table table th:first-child,
+.liste_table table td:first-child {
+    padding-left: 20px; /* Adds left padding to the first cell */
+}
+.liste_table .table-body-wrapper table tr:not(.readOnly):hover {
+    background-color: lightgray; /* Light grey background on hover (if not readOnly) */
+    transform: scale(1.01); /* Scales up slightly on hover */
+}
+.liste_table .table-body-wrapper table tr.readOnly {
+    opacity: 0.5; /* Reduces opacity */
+    cursor: not-allowed; /* Changes cursor to not-allowed */
+}
+.liste_table table th.col-id,
+.liste_table table td.col-id {
+    width: 10%; /* Sets width to 10% */
+}
+.liste_table table th.col-name,
+.liste_table table td.col-name {
+    width: 10%; /* Sets width to 10% */
+}
+.liste_table table th.col-beschreibung,
+.liste_table table td.col-beschreibung {
+    width: 40%; /* Sets width to 40% */
+}
+.liste_table table th.col-bezeichnen,
+.liste_table table td.col-bezeichnen {
+    width: 15%; /* Sets width to 15% */
+}
+.liste_table .table-body-wrapper table tr {
+    cursor: pointer;
+}
+/* --- Table Styling (Flexbox-based) --- */
+// .liste_table table { /* Styles the table element within .liste_table */
+//     width: 100%; /* Sets the table width to 100% of its parent container */
+//     border-collapse: collapse; /* Collapses table borders into a single border (though less relevant with flex-based rows) */
+//     // min-width: 900px; /* Table can still have a minimum width (original comment) */
+//     min-width: 0; /* Ensures the table can shrink to 0 if needed (important for flex containers) */
+//     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Specifies the font stack for table content */
+// }
+// .liste_table table thead tr, /* Targets table header rows */
+// .liste_table table tbody tr { /* Targets table body rows */
+//     display: flex; /* Makes each table row a flex container */
+//     width: 100%; /* Ensures the table row takes up 100% of its parent's width */
+//     border-bottom: 1px solid #d3d3d3; /* Adds a light grey bottom border to each row */
+//     height: 60px; /* Sets a fixed height for each table row */
+//     align-items: center; /* Vertically centers the content within each table row */
+// }
+// /* Removes borders between cells if you want border-collapse to work for the outer borders of the table */
+// .liste_table table th, /* Styles table header cells */
+// .liste_table table td { /* Styles table data cells */
+//     padding: 8px; /* Adds 8px padding inside each cell */
+//     text-align: left; /* Aligns text to the left within each cell */
+//     border-right: 1px solid #ddd; /* Adds a light grey right border to each cell */
+//     vertical-align: top; /* Aligns content to the top vertically (less relevant with display:flex on tr) */
+//     box-sizing: border-box; /* Ensures padding and border are included in the element's total width and height */
+//     overflow: hidden; /* Clips content that overflows the cell's boundaries */
+//     white-space: nowrap; /* Prevents text from wrapping to the next line */
+//     text-overflow: ellipsis; /* Displays an ellipsis (...) for clipped text */
+//     height: 100%; /* Ensures the cell takes up 100% height of its parent row */
+//     /* Flexbox properties for columns */
+//     flex-grow: 1;   /* By default, allows all columns to grow to fill available space */
+//     flex-shrink: 1; /* Allows columns to shrink if space is limited */
+//     flex-basis: 0;  /* Base width is 0, columns then grow based on flex-grow */
+//     /* Or use shorthand: flex: 1 1 0; */ /* Shorthand for the above three flex properties */
+// }
+// /* Removes the right border from the last column in each row */
+// .liste_table table th:last-child,
+// .liste_table table td:last-child {
+//     border-right: none;
+// }
+// /* Flexible adjustments for each column type */
+// .liste_table table th.col-id,
+// .liste_table table td.col-id {
+//     flex: 0 0 50px; /* Column ID has a fixed width of 50px and does not grow or shrink */
+//     text-align: center; /* ID content is horizontally centered */
+// }
+// .liste_table table th.col-del-icon, /* Targets the delete icon column in headers */
+// .liste_table table td.col-del-icon { /* Targets the delete icon column in data rows */
+//     flex: 0 0 40px; /* Fixed width of 40px for the delete icon column */
+//     text-align: center; /* Content (icon) is horizontally centered */
+// }
+// .liste_table table th.col-name,
+// .liste_table table td.col-name {
+//     flex: 2 1 100px; /* Prioritizes growing twice as much as flex-grow:1 columns, with a minimum base width of 100px */
+// }
+// .liste_table table th.col-bezeichnen,
+// .liste_table table td.col-bezeichnen {
+//     flex: 2 1 100px; /* Similar to col-name, prioritizes growing twice as much */
+// }
+// .liste_table table th.col-beschreibung,
+// .liste_table table td.col-beschreibung {
+//     flex: 3 1 150px; /* Prioritizes growing three times as much, with a minimum base width of 150px */
+// }
+// /* Add other columns if available */
+// .liste_table table th.col-kommentar,
+// .liste_table table td.col-kommentar {
+//     flex: 1 1 100px; /* Grows normally (flex-grow:1), with a minimum base width of 100px */
+// }
+// .main .projekt .content_header table th.content_symbol, /* Targets the symbol column in the content header table header */
+// .main .projekt .content_header table td.content_symbol { /* Targets the symbol column in the content header table data */
+//     flex: 0 0 content; /* Sets the width to exactly fit its content, without growing or shrinking */
+//     text-align: right; /* Aligns content to the right */
+//     white-space: nowrap; /* Prevents content from wrapping to the next line */
+// }
+/* Table icons */
+.liste_table table .search-icon,
+.liste_table table .sort-icon {
+    font-size: 12px; /* Sets font size */
+    color: #aaa; /* Sets color to very light grey */
+    margin-left: 5px; /* Adds left margin */
+    cursor: pointer; /* Changes cursor to pointer */
+}
+.liste_table table .sort-icon {
+    font-size: 14px; /* Sets font size */
+}
+.liste_table table .shield-icon {
+    color: #daa520; /* Sets color to a golden yellow */
+    font-size: 16px; /* Sets font size */
+    margin-right: 5px; /* Adds right margin */
+}
+.liste_table table .action-icon {
+    font-size: 18px; /* Sets font size */
+    color: #9370db; /* Sets color to a light purple */
+    margin-right: 8px; /* Adds right margin */
+    cursor: pointer; /* Changes cursor to pointer */
+}
+.liste_table table .action-icon.purple {
+    background-color: #9370db; /* Light purple background */
+    color: #fff; /* White text color */
+    border-radius: 50%; /* Makes it circular */
+    padding: 5px; /* Adds padding */
+    width: 28px; /* Fixed width */
+    height: 28px; /* Fixed height */
+    display: inline-flex; /* Makes it an inline flex container */
+    align-items: center; /* Vertically centers flex items */
+    justify-content: center; /* Horizontally centers flex items */
+    margin-right: 10px; /* Adds right margin */
+}
+.liste_table table .details-link {
+    color: #007bff; /* Bootstrap primary blue text color */
+    text-decoration: none; /* Removes underline */
+    font-weight: 500; /* Medium font weight */
+    transition: text-decoration 0.3s ease; /* Smooth transition for text-decoration */
+}
+.liste_table table .details-link:hover {
+    text-decoration: underline; /* Adds underline on hover */
+}
+/* Checkbox styling */
+input[type="checkbox"] {
+    -webkit-appearance: none; /* Removes default WebKit checkbox styling */
+    -moz-appearance: none; /* Removes default Mozilla checkbox styling */
+    appearance: none; /* Removes default checkbox styling */
+    width: 18px; /* Fixed width */
+    height: 18px; /* Fixed height */
+    border: 2px solid #ccc; /* Light grey border */
+    border-radius: 3px; /* Rounds corners */
+    outline: none; /* Removes outline */
+    cursor: pointer; /* Changes cursor to pointer */
+    vertical-align: middle; /* Vertically aligns to middle */
+    position: relative; /* Establishes positioning context */
+    top: -1px; /* Adjusts vertical position slightly */
+}
+input[type="checkbox"]:checked {
+    background-color: #007bff; /* Changes background color to blue when checked */
+    border-color: #007bff; /* Changes border color to blue when checked */
+}
+input[type="checkbox"]:checked::after {
+    content: '✓'; /* Displays a checkmark when checked */
+    color: white; /* White checkmark color */
+    font-size: 14px; /* Sets font size */
+    position: absolute; /* Positions absolutely */
+    top: 50%; /* Aligns to 50% from top */
+    left: 50%; /* Aligns to 50% from left */
+    transform: translate(-50%, -50%); /* Centers the checkmark precisely */
+}
+/* --- Pagination Section (info_table) --- */
+.info_table {
+    display: flex; /* Makes it a flex container */
+    align-items: center; /* Vertically centers flex items */
+    justify-content: flex-end; /* Aligns flex items to the end (right) */
+    padding: 15px; /* Adds padding */
+    background-color: #fff; /* White background */
+    border-top: 1px solid #eee; /* Light grey top border */
+    border-radius: 0 0 5px 5px; /* Rounds bottom corners */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08); /* Subtle shadow */
+}
+.info_table .show {
+    display: flex; /* Makes it a flex container */
+    align-items: center; /* Vertically centers flex items */
+    gap: 10px; /* Adds a 10px gap between flex items */
+    margin-right: 20px; /* Adds right margin */
+    color: #555; /* Sets text color to medium grey */
+}
+#select_length {
+    border: 1px solid #ccc; /* Light grey border */
+    border-radius: 4px; /* Rounds corners */
+    padding: 5px 8px; /* Adds padding */
+    background-color: #fff; /* White background */
+    cursor: pointer; /* Changes cursor to pointer */
+    outline: none; /* Removes outline */
+}
+.page {
+    display: flex; /* Makes it a flex container */
+    align-items: center; /* Vertically centers flex items */
+}
+.page > * {
+    margin: 0; /* Resets margin */
+    text-align: left; /* Aligns text to the left */
+    color: #555; /* Sets text color to medium grey */
+    margin-right: 20px; /* Adds right margin */
+}
+//####################################################################################
+.info_table .page {
+    width: 300px; /* Fixed width */
+    height: 35px; /* Fixed height */
+    float: right; /* Floats the element to the right */
+    display: flex; /* Makes it a flex container */
+    align-items: center; /* Vertically centers flex items */
+    justify-content: space-between; /* Distributes space evenly between flex items */
+}
+.info_table .page > * {
+    width: 33%; /* Sets width to 33% of its parent */
+    height: 35px; /* Fixed height */
+    margin: 0 auto; /* Centers horizontally */
+    text-align: center; /* Centers text horizontally */
+}
+.info_table .page img.disabled {
+    opacity: 0.5; /* Reduces opacity */
+    cursor: not-allowed; /* Changes cursor to not-allowed */
+}
+.info_table .page img:not(.disabled):hover {
+    transform: scale(1.1); /* Scales up slightly on hover (if not disabled) */
+}
+//####################################################################################
+.pagination-controls {
+    display: flex; /* Makes it a flex container */
+}
+.button_sort {
+    background-color: #f8f8f8; /* Very light grey background */
+    border: 1px solid #ddd; /* Light grey border */
+    border-radius: 4px; /* Rounds corners */
+    padding: 5px 10px; /* Adds padding */
+    margin-left: 5px; /* Adds left margin */
+    cursor: pointer; /* Changes cursor to pointer */
+    font-weight: bold; /* Bold font weight */
+    color: #666; /* Grey text color */
+    transition: background-color 0.3s ease, border-color 0.3s ease; /* Smooth transition */
+    display: flex; /* Makes it a flex container */
+    align-items: center; /* Vertically centers flex items */
+    justify-content: center; /* Horizontally centers flex items */
+    &:hover:not(.disabled) { /* Styles on hover if not disabled */
+        background-color: #eee; /* Lighter grey background on hover */
+        border-color: #ccc; /* Lighter grey border on hover */
+    }
+    &.disabled { /* Styles when disabled */
+        opacity: 0.5; /* Reduces opacity */
+        cursor: not-allowed; /* Changes cursor to not-allowed */
+        background-color: #f8f8f8; /* Very light grey background */
+        border-color: #ddd; /* Light grey border */
+        color: #ccc; /* Very light grey text color */
+    }
+    img { /* Styles images inside the button */
+        width: 16px; /* Fixed width */
+        height: 16px; /* Fixed height */
+        background-color: transparent; /* Transparent background */
+        border: none; /* Removes border */
+        border-radius: 0; /* Square corners */
+        filter: grayscale(100%); /* Converts image to grayscale */
+    }
+    &.disabled img { /* Styles images inside disabled button */
+        filter: grayscale(100%) opacity(0.5); /* Grayscale with reduced opacity */
+    }
+}
+.table-wrapper {
+    max-height: 300px; /* Sets max height, enabling vertical scrolling if content overflows */
+    overflow-y: auto; /* Adds vertical scrollbar if content overflows */
+    position: relative; /* Establishes positioning context */
+}
+button[type="submit"]{
+    background-color: white;
+    color: white; /* White text color */
+    border: none; /* Removes border */
+    border-radius: 5px; /* Rounds corners */
+    cursor: pointer; /* Changes cursor to pointer */
+    font-size: 16px; /* Sets font size */
+}
+/* General Icons - Using basic Unicode for demonstration */
+/* For a real application, consider using an icon library like Font Awesome or Material Icons */
+.icon {
+    font-family: 'Material Icons', sans-serif; /* Specifies Material Icons font */
+    vertical-align: middle; /* Vertically aligns to middle */
+}
+/* Fallback/Generic icon styles if icon font isn't loaded */
+.icon {
+    display: inline-block; /* Allows width/height to be set and flow inline */
+    width: 1em; /* Width equal to current font size */
+    text-align: center; /* Centers text horizontally */
+}
+a:hover:not(.active) {
+    color: #007bff; /* Changes color to blue on hover if not active */
+}
+.filter-row-container {
+    margin-bottom: 10px; /* Adds bottom margin */
+}
+//####################################################################################
+.filter-row-ms {
+    display: flex; /* Makes it a flex container */
+    gap: 20px; /* Adds a 20px gap between flex items */
+    margin-top: 20px; /* Adds top margin */
+    margin-bottom: 20px; /* Adds bottom margin */
+    align-items: center; /* Vertically centers flex items */
+    background-color: #fff; /* White background */
+    border-radius: 5px; /* Rounds corners */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08); /* Subtle shadow */
+    padding: 15px 20px; /* Adds padding */
+}
+.filter-group, .show-group, .next-show-input {
+    display: flex; /* Makes them flex containers */
+    align-items: center; /* Vertically centers flex items */
+    gap: 30px;  // create distand between direct children to 30px /* Adds a 30px gap between direct children */
+}
+label {
+    font-weight: bold; /* Bold font weight */
+}
+select, input[type="text"], input[type="date"] {
+    padding: 8px 10px; /* Adds padding */
+    border: 1px solid #ccc; /* Light grey border */
+    border-radius: 4px; /* Rounds corners */
+    font-size: 16px; /* Sets font size */
+}
+.next-filter-input, .text-filter-input {
+    width: 180px; /* Fixed width */
+}
+//####################################################################################
+.form-group#loadImage img {
+    margin-top: 10px;
+    width: 100px;
+    height: 150px;
+}
+.form-group#paperclip img {
+    width: 30px;
+    height: 40px;
+}
+.imgUser{
+    width: 100px;
+    height: 150px;
 }
