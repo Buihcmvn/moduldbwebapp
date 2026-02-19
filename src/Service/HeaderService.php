@@ -18,7 +18,7 @@ use Knp\Component\Pager\PaginatorInterface;
 class HeaderService
 {
     const ICONS_PATH = [
-        'logo'          =>'images/logo.png',
+        'home'          =>'icons/home.svg',
         'user'          =>'icons/user.svg',
         'forward'       =>'icons/forward.svg',
         'backward'      =>'icons/backward.svg',

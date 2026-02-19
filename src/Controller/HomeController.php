@@ -60,9 +60,8 @@ class HomeController extends AbstractController
             'user'              => $userToken,
             'userRole'          => $userRole,
             'defaultRole'       => $defaultRole,
-            'source_symbol_img' => $this->headerService::ICONS_PATH['logo'],
-            'source_user_img'   => $this->headerService::ICONS_PATH['user'],
-            'alt_symbol_img'    => $this->headerService::ICONS_PATH['logo']
+            'source_home_img' => $this->headerService::ICONS_PATH['home'],
+            'source_user_img'   => $this->headerService::ICONS_PATH['user']
         ]);
     }
 
