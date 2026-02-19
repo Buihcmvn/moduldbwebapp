@@ -19,15 +19,15 @@ class HeaderService
 {
     const ICONS_PATH = [
         'logo'          =>'images/logo.png',
-        'user'          =>'images/user.svg',
-        'forward'       =>'images/forward.svg',
-        'backward'      =>'images/backward.svg',
-        'backward_end'  =>'images/backward_end.svg',
-        'forward_end'   =>'images/forward_end.svg',
-        'delete'        =>'images/delete.svg',
-        'settings'      =>'images/settings.svg',
-        'up'            =>'images/up.svg',
-        'down'          =>'images/down.svg',
+        'user'          =>'icons/user.svg',
+        'forward'       =>'icons/forward.svg',
+        'backward'      =>'icons/backward.svg',
+        'backward_end'  =>'icons/backward_end.svg',
+        'forward_end'   =>'icons/forward_end.svg',
+        'delete'        =>'icons/delete.svg',
+        'settings'      =>'icons/settings.svg',
+        'up'            =>'icons/up.svg',
+        'down'          =>'icons/down.svg',
     ];
 
     const ICONS_PATH_HARDWARE = [
