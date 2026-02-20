@@ -30,17 +30,16 @@ class HeaderService
         'down'          =>'icons/down.svg',
     ];
 
-    const ICONS_PATH_HARDWARE = [
-        'home'          =>'icons/home.svg',
-        'user'          =>'icons/user.svg',
-        'forward'       =>'icons/forward.svg',
-        'backward'      =>'icons/backward.svg',
-        'backward_end'  =>'icons/backward_end.svg',
-        'forward_end'   =>'icons/forward_end.svg',
-        'delete'        =>'icons/delete.svg',
-        'settings'      =>'icons/settings.svg',
-        'up'            =>'icons/up.svg',
-        'down'          =>'icons/down.svg',
+    const ICONS_PATH_ = [
+        'source_home_img'        =>'/icons/home.svg',
+        'source_user_img'          =>'/icons/user.svg',
+        'source_forward_img'       =>'/icons/forward.svg',
+        'source_backward_img'      =>'/icons/backward.svg',
+        'source_backward_end_img'  =>'/icons/backward_end.svg',
+        'source_forward_end_img'   =>'/icons/forward_end.svg',
+        'source_delete_img'        =>'/icons/delete.svg',
+        'source_up_img'            =>'/icons/up.svg',
+        'source_down_img'          =>'/icons/down.svg',
     ];
 
     public EntityManagerInterface $entityManager;

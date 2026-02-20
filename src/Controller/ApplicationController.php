@@ -69,6 +69,8 @@ class ApplicationController extends AbstractController
         $userInfor      = $this->userService->inforUser($user);
         $currentRoleId  = intval($request->getSession()->get('currentRoleId'));
 
+        // dd($userInfor);
+
         //GET-Daten in der Session speichern
         $request->getSession()->set('currentParams', $request->attributes->get('_route_params'));
         // POST-Daten in der Session speichern
@@ -76,13 +78,16 @@ class ApplicationController extends AbstractController
 //        $request->getSession()->set('application_sort_field', $sortField);
 
         // Combine all data into a single array
-        $data = array_merge($userInfor, $sortPagination, $this->headerService::ICONS_PATH_HARDWARE, [
+        $data = array_merge($userInfor, $sortPagination, $this->headerService::ICONS_PATH_, [
             'task'                      => 'projekt_list',
             'pathName'                  => $request->attributes->get('_route'),
             'properties'                => $properties,
             'sort_field'                => $sortField,
             'currentRoleId'             => $currentRoleId,
         ]);
+
+        // dd($data);
+
         return $this->render('Application/application.html.twig', $data);
     }
 

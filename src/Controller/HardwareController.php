@@ -60,7 +60,7 @@ class HardwareController extends AbstractController
         $currentRoleId  = intval($request->getSession()->get('currentRoleId'));
 
         // Combine all data into a single array
-        $data = array_merge($userInfor, $this->headerService::ICONS_PATH_HARDWARE, [
+        $data = array_merge($userInfor, $this->headerService::ICONS_PATH_, [
             'task'           => 'hardware_local_edit',
             'pathName'       => $request->attributes->get('_route'),
             'currentRoleId'  => $currentRoleId,
@@ -113,7 +113,7 @@ class HardwareController extends AbstractController
         $request->getSession()->set('hardware_sort_field', $sortField);
 
         // Combine all data into a single array
-        $data = array_merge($userInfor, $sortPagination, $this->headerService::ICONS_PATH_HARDWARE, [
+        $data = array_merge($userInfor, $sortPagination, $this->headerService::ICONS_PATH_, [
             'task'                      => 'hardware_local_list',
             'pathName'                  => $request->attributes->get('_route'),
             'properties'                => $properties,
@@ -173,7 +173,7 @@ class HardwareController extends AbstractController
         $currentRoleId  = intval($request->getSession()->get('currentRoleId'));
 
         // Combine all data into a single array
-        $data = array_merge($userInfor, $this->headerService::ICONS_PATH_HARDWARE, [
+        $data = array_merge($userInfor, $this->headerService::ICONS_PATH_, [
             'task'                      => 'hardware_local_edit',
             'pathName'                  => $request->attributes->get('_route'),
             'currentRoleId'             => $currentRoleId,
@@ -247,7 +247,7 @@ class HardwareController extends AbstractController
         $currentRoleId  = intval($request->getSession()->get('currentRoleId'));
 
         // Combine all data into a single array
-        $data = array_merge($userInfor, $this->headerService::ICONS_PATH_HARDWARE, [
+        $data = array_merge($userInfor, $this->headerService::ICONS_PATH_, [
             'pathName'                  => $request->attributes->get('_route'),
             'currentRoleId'             => $currentRoleId,
             'form'                      => $form
@@ -268,7 +268,7 @@ class HardwareController extends AbstractController
             $hardwareDatas = $this->hardwareService->getHardwareListData();
 
             // Combine all data into a single array
-            $data = array_merge($userInfor, $this->headerService::ICONS_PATH_HARDWARE, [
+            $data = array_merge($userInfor, $this->headerService::ICONS_PATH_, [
                 'pathName'                  => $request->attributes->get('_route'),
                 'currentRoleId'             => $currentRoleId,
                 'hardwareDatas'             => $hardwareDatas
@@ -318,7 +318,7 @@ class HardwareController extends AbstractController
         $currentRoleId  = intval($request->getSession()->get('currentRoleId'));
 
         // Combine all data into a single array
-        $data = array_merge($userInfor, $this->headerService::ICONS_PATH_HARDWARE, [
+        $data = array_merge($userInfor, $this->headerService::ICONS_PATH_, [
             'pathName'                  => $request->attributes->get('_route'),
             'currentRoleId'             => $currentRoleId,
             'form'                      => $form

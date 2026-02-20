@@ -125,7 +125,7 @@ class SoftwareController extends AbstractController
 
         // define an array for icon
         $iconSources = [
-            'source_symbol_img'         => "/{$this->headerService::ICONS_PATH['logo']}",
+            'source_home_img'         => "/{$this->headerService::ICONS_PATH['home']}",
             'source_user_img'           => '/'.$this->headerService::ICONS_PATH['user'],
             'source_forward_img'        => '/'.$this->headerService::ICONS_PATH['forward'],
             'source_backward_img'       => '/'.$this->headerService::ICONS_PATH['backward'],

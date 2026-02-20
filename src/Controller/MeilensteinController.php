@@ -26,7 +26,7 @@ class MeilensteinController extends AbstractController
         $currentRoleId  = intval($request->getSession()->get('currentRoleId'));
 
         // Combine all data into a single array
-        $data = array_merge($userInfor, $this->headerService::ICONS_PATH_HARDWARE, [
+        $data = array_merge($userInfor, $this->headerService::ICONS_PATH_, [
             'task'           => 'meilenstein',
             'pathName'       => $request->attributes->get('_route'),
             'currentRoleId'  => $currentRoleId,
