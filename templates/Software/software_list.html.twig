@@ -1,0 +1,37 @@
+{# Templates extend from base template  #}
+{# ################### image import ist OK or NOT ##################### #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Software{% endblock %}
+
+{% block body %}
+    {{ include('Navigation/_horizoltal_nav_bar.html.twig') }}
+    <div class="main">
+        {{ include('Navigation/_vertical_nav_bar.html.twig') }}
+        <div class="projekt">
+            <div class="content_header">
+                <table>
+                    <td class="content_title"><h2>Software_List</h2></td>
+                    <td class="content_navigator"></td>
+                    <td class="content_symbol">
+                        <img src="/images/document-pdf.svg" title="PDF export">
+                        <img src="/images/document-X.svg" title="Excel export">
+                        <img src="/images/settings.svg" title="Setting">
+                    </td>
+                </table>
+            </div> 
+
+            <div class="add_projekt">
+                <button onclick="location.href='/software/new';" title="Hinzufügen neu Software">
+                    <img src="/images/list-view-add.svg">
+                </button>
+            </div>
+
+            <div id="listSoftware" data-csrf-token="{{ csrf_token('list_software') }}">
+                <software-list></software-list>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}

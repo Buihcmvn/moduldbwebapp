@@ -1,0 +1,32 @@
+{# Templates extend from base template  #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Aplication{% endblock %}
+
+{% block stylesheets %}
+    {# Linking to CSS file from public folder  #}
+    <link rel="stylesheet" href="{{ asset('build/base.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/application.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/app.css') }}">
+
+{% endblock %}
+
+{% block body %}
+    {{ include('Navigation/_horizoltal_nav_bar.html.twig') }}
+    <div class="main">
+        {{ include('Navigation/_vertical_nav_bar.html.twig') }}
+        <div class="projekt">
+            <div>
+                <h2>Liste Projekte </h2>
+            </div>
+
+            <div class="add_projekt">
+                <input type="button" onclick="location.href='/application/new';" value="Hinzufügen" />
+            </div>
+
+            <div id="editTest">
+                <simple-component :message="'{{projekt.beschreibung}}'"></simple-component>
+            </div>
+        </div>
+    </div>
+{% endblock %}

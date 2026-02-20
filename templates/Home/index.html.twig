@@ -1,0 +1,9 @@
+{# Templates extend from base template  #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Index{% endblock %}
+
+{% block body %}
+    <div id="app" data-csrf-token="{{ csrf_token('edit_projekte') }}"></div>
+
+{% endblock %}

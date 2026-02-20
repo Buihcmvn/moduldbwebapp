@@ -1,0 +1,35 @@
+{# Templates extend from base template  #}
+{# ################### image import ist OK or NOT ##################### #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Bestellung{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('bestellung') }}
+{% endblock %}
+
+{% block body %}
+    {{ include('Navigation/_horizoltal_nav_bar.html.twig') }}
+    <div class="main">
+        {{ include('Navigation/_vertical_nav_bar.html.twig') }}
+        <div class="projekt">
+            <div class="content_header">
+                <table>
+                    <td class="content_title"><h2>Bestellung_List</h2></td>
+                    <td class="content_navigator"></td>
+                    <td class="content_symbol">
+                        <img src="/images/document-pdf.svg" title="PDF export">
+                        <img src="/images/document-X.svg" title="Excel export">
+                        <img src="/images/settings.svg" title="Setting">
+                    </td>
+                </table>
+            </div> 
+            <div id="bestellung-root" data-csrf-token="{{ csrf_token('react-bestellung-root') }}"></div> {# <-- Here ROOT ELEMENT for REACT APP #}
+
+        </div>
+    </div>
+
+{#    <div id="modal-root"></div> <!-- Add this line to test portal popup-->#}
+
+{% endblock %}

@@ -1,0 +1,41 @@
+{# Templates extend from base template  #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Hardware{% endblock %}
+
+{% block body %}
+    {{ include('Navigation/_horizoltal_nav_bar.html.twig') }}
+    <div class="main">
+        {{ include('Navigation/_vertical_nav_bar.html.twig') }}
+        <div class="projekt">
+            <div class="content_header">
+                <table>
+                    <td class="content_title"><h2>Hardware_List</h2></td>
+                    <td class="content_navigator"></td>
+                    <td class="content_symbol">
+                        <img id="exportPdf" src="/images/document-pdf.svg" title="PDF export">
+                        <img id="exportExcel" src="/images/document-X.svg" title="Excel export">
+                        <img id="setting" src="/images/settings.svg" onclick="location.href='/hardware/local/setting';" title="Setting">
+                    </td>
+                </table>
+            </div> 
+
+            <div class="add_projekt">
+                <button onclick="location.href='/hardware/local/new';" title="Hinzufügen neu Hardware">
+                    <img src="/images/list-view-add.svg">
+                </button>
+            </div>
+
+            <div id="localHardware" data-csrf-token="{{ csrf_token('list_projekte') }}">
+                <local-hardware></local-hardware>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}
+
+
+
+
+

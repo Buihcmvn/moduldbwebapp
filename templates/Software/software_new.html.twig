@@ -1,0 +1,25 @@
+{# Templates extend from base template  #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Software{% endblock %}
+
+{% block body %}
+    {{ include('Navigation/_horizoltal_nav_bar.html.twig') }}
+    <div class="main">
+        {{ include('Navigation/_vertical_nav_bar.html.twig') }}
+        <div class="projekt">
+
+            <div id="addSoftware" data-csrf-token="{{ csrf_token('add_software') }}">
+                <software-add></software-add>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}
+
+
+
+
+
+

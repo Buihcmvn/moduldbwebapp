@@ -1,0 +1,19 @@
+{# Templates extend from base template  #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Bestellung New{% endblock %}
+
+{% block body %}
+    {{ include('Navigation/_horizoltal_nav_bar.html.twig') }}
+    <div class="main">
+        {{ include('Navigation/_vertical_nav_bar.html.twig') }}
+        <div class="projekt">
+
+            <div id="addBestellung" data-csrf-token="{{ csrf_token('add_bestellung') }}">
+                <bestellung-add></bestellung-add>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}

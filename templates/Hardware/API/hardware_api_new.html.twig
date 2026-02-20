@@ -1,0 +1,85 @@
+{# Templates extend from base template  #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Hardware{% endblock %}
+
+{% block stylesheets %}
+    {# Linking to CSS file from public folder  #}
+    <link rel="stylesheet" href="{{ asset('build/base.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/hardware.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/app.css') }}">
+
+{% endblock %}
+
+{% block body %}
+    {{ include('Navigation/_horizoltal_nav_bar.html.twig') }}
+    <div class="main">
+        {{ include('Navigation/_vertical_nav_bar.html.twig') }}
+
+        <div class="hardware">
+            {{ include('Navigation/Hardware/_horizoltal_nav_bar.html.twig') }}
+
+            <div class="api">
+                <div>
+                    <h2>API Hardware </h2>
+                </div>
+
+                <div class="hardware_nav">
+                    <ul>
+                        <li><a class="create" href="/hardware/api/new" >Create</a></li>
+                        <li><a class="read" href="/hardware/api/list">Read</a></li>
+                        <li><a class="update" >Update</a></li>
+                    </ul>
+                </div>
+
+                <div class="form">
+                    {{ form_start(form) }}
+                    <table>
+                        <tr>
+                            <td>{{ form_label(form.name) }}</td>
+                            <td>{{ form_widget(form.name) }}</td>
+                            <td><small class="error">{{ form_errors(form.name) }}</small></td>
+                        </tr>
+                        <tr>
+                            <td>{{ form_label(form.bezeichnen) }}</td>
+                            <td>{{ form_widget(form.bezeichnen) }}</td>
+                            <td><small class="error">{{ form_errors(form.bezeichnen) }}</small></td>
+                        </tr>
+                        <tr>
+                            <td>{{ form_label(form.beschreibung) }}</td>
+                            <td>{{ form_widget(form.beschreibung) }}</td>
+                            <td><small class="error">{{ form_errors(form.beschreibung) }}</small></td>
+                        </tr>
+                        <tr>
+                            <td>{{ form_label(form.kommentar) }}</td>
+                            <td>{{ form_widget(form.kommentar) }}</td>
+                            <td><small class="error">{{ form_errors(form.kommentar) }}</small></td>
+                        </tr>
+                        <tr>
+                            <td>{{ form_widget(form.hinzufuegen) }}</td>
+                            <td></td>
+                        </tr>
+                    </table>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        $(document).ready( function(){
+            $('.hardware_nav ul li a').removeClass('active')
+            $('.horizontal_navigator ul li a').removeClass('active')
+            $('.hardware_api_nav ul li a').removeClass('active');
+            $('.api_list').addClass('active')
+            $('a.hardware').addClass('active')
+            $('a.create').addClass('active')
+        });
+    </script>
+{% endblock %}
+
+
+
+
+

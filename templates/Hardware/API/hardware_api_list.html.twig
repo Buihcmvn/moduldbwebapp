@@ -1,0 +1,134 @@
+{# Templates extend from base template  #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Hardware{% endblock %}
+
+{% block stylesheets %}
+    {# Linking to CSS file from public folder  #}
+    <link rel="stylesheet" href="{{ asset('build/base.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/hardware.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/app.css') }}">
+
+{% endblock %}
+
+{% block body %}
+    {{ include('Navigation/_horizoltal_nav_bar.html.twig') }}
+    <div class="main">
+        {{ include('Navigation/_vertical_nav_bar.html.twig') }}
+
+        <div class="hardware">
+            {{ include('Navigation/Hardware/_horizoltal_nav_bar.html.twig') }}
+
+            <div class="api">
+                <div>
+                    <h2>API Hardware </h2>
+                </div>
+
+                <div class="hardware_api_nav">
+                    <ul>
+                        <li><a class="create" href="/hardware/api/new" >Create</a></li>
+                        <li><a class="read" href="/hardware/api/list">Read</a></li>
+                        <li><a class="update" >Update</a></li>
+                    </ul>
+                </div>
+
+                <div class="liste_table" >
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                            <tr>
+                                <th class="col-id">ID</th>
+                                <th class="col-name">Name</th>
+                                <th class="col-bezeichnen">Bezeichnen</th>
+                                <th class="col-beschreibung">Beschreibung</th>
+                                <th colspan="2">Kommentar</th>
+                            </tr>
+                            </thead>
+                        </table>
+                        <div class="table-body-wrapper">
+                            <table>
+                                <tbody id="dbTable">
+                                {% for hardware in hardwareDatas %}
+                                    <tr id="{{ hardware.id }}">
+                                        <td class="col-id" >{{ hardware.id }}</td>
+                                        <td class="col-name" >{{ hardware.name }}</td>
+                                        <td class="col-bezeichnen" >{{ hardware.bezeichnen }}</td>
+                                        <td class="col-beschreibung" >{{ hardware.beschreibung }}</td>
+                                        <td >{{ hardware.kommentar }}</td>
+                                        <td class="col-icon" id="delete"><img src="{{ source_delete_img }}" alt="Delete"></td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        $(document).ready( function(){
+            $('.hardware_nav ul li a').removeClass('active')
+            $('.horizontal_navigator ul li a').removeClass('active')
+            $('.hardware_api_nav ul li a').removeClass('active');
+            $('.api_list').addClass('active')
+            $('a.hardware').addClass('active')
+            $('a.read').addClass('active')
+
+
+            // Update Function ------------------------------------------
+            function route2SoftwareEditWithId(id=1)
+            {
+                const route ="{{ path('hardware_api_edit',
+                    {
+                        id: '__ID__'
+                    })|escape('js')}}"
+                    .replace('__ID__', id);
+                console.log('call Link: '+route)
+                window.location.href = route;
+            }
+
+            // Update ----------------------------------------------------
+            $('#dbTable').on('click', 'tr:not(.readOnly)',function(event){
+                let row = $(this).closest('tr');
+                let rowID = row.attr('id');
+
+                // console.log(event.target.closest('#delete'));
+                if( !event.target.closest('#delete') )
+                {
+                    // Verhindert die Standardaktion (falls erforderlich)
+                    event.preventDefault();
+                    // Stoppt die Ereignisweitergabe
+                    event.stopPropagation();
+
+                    // console.log('edit row: '+rowID)
+                    route2SoftwareEditWithId(rowID);
+                }
+                else{
+                    console.log('delete row : ' +rowID);
+                    if(confirm("Möchten Sie dieses Objekt wirklich löschen?"))
+                    {
+                        $.ajax({
+                            url: '/ajax/hardware/api/delete/'+rowID,
+                            type: 'DELETE',
+                            success: function(){
+                                console.log('löschen erfolg');
+                                row.remove();
+                            },
+                            error: function(error){
+                                alert('Fehler beim Löschen: ' + error);
+                            }
+                        });
+                    }
+                }
+            });
+        });
+    </script>
+{% endblock %}
+
+
+
+
+
